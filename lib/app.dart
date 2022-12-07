@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
-
-class TodoModel {
-  String name;
-  String dateTime;
-  bool isChecked;
-
-  TodoModel(
-      {required this.name, required this.dateTime, required this.isChecked});
-
-  @override
-  String toString() {
-    return '{ ${this.name}, ${this.dateTime} ${isChecked}}';
-  }
-}
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/todo_models/todo_model.dart';
+import 'package:uuid/uuid.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -22,13 +11,18 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final textController = TextEditingController();
+  final _uuid = const Uuid();
+  final _textController = TextEditingController();
   List<TodoModel> todos = [];
+  List<TodoModel> doneTodos = [];
+
+  final prefs = SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
-    print(todos);
-
+    print('todos: $todos');
+    print('done: $doneTodos');
+// Obtain shared preferences.
     return Scaffold(
       appBar: AppBar(
         title: const Text('TodoApp'),
@@ -38,20 +32,21 @@ class _AppState extends State<App> {
           Column(
             children: [
               TextField(
-                controller: textController,
+                controller: _textController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), hintText: 'Add todo...'),
                 onEditingComplete: () {
                   setState(() {
+                    if (_textController.text == '') return;
                     todos.add(
                       TodoModel(
-                          name: textController.text,
-                          dateTime: '${[
-                            DateTime.now().toString().split('.')[0]
-                          ].join('')}',
-                          isChecked: true),
+                          id: _uuid.v4(),
+                          todo: _textController.text,
+                          createdAt: [DateTime.now().toString().split('.')[0]]
+                              .join(''),
+                          isChecked: false),
                     );
-                    textController.text = '';
+                    _textController.text = '';
                   });
                 },
               ),
@@ -64,33 +59,56 @@ class _AppState extends State<App> {
                     print(todos);
                     return Row(
                       children: [
-                        IconButton(
-                            icon: const Icon(Icons.check_box_outline_blank),
-                            onPressed: () {
-                              setState(() {
-                                todos[index].isChecked =
-                                    !todos[index].isChecked;
-                              });
-                            }),
+                        Checkbox(
+                          value: todos[index].isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              todos[index].isChecked = value!;
+
+                              doneTodos.add(
+                                TodoModel(
+                                    id: _uuid.v4(),
+                                    todo: _textController.text,
+                                    createdAt: [
+                                      DateTime.now().toString().split('.')[0]
+                                    ].join(''),
+                                    isChecked: false),
+                              );
+                            });
+                          },
+                        ),
                         Expanded(
                           child: ListTile(
                             title: Text(
-                              todos[index].name,
+                              todos[index].todo,
                               style: TextStyle(
-                                  decoration: todos[index].isChecked == false
+                                  decoration: todos[index].isChecked
                                       ? TextDecoration.lineThrough
                                       : TextDecoration.none,
                                   fontSize: 20),
                             ),
-                            subtitle: Text(todos[index].dateTime),
-                            trailing: IconButton(
-                                icon: const Icon(Icons.create),
-                                onPressed: () {
-                                  setState(() {
-                                    todos[index].isChecked =
-                                        !todos[index].isChecked;
-                                  });
-                                }),
+                            subtitle: Text(todos[index].createdAt),
+                            trailing: PopupMenuButton(
+                              onSelected: (value) {
+                                if (value == 'edit') {}
+                                if (value == 'delete') {
+                                  // remove by item
+                                  deleteById(todos[index].id);
+                                }
+                              },
+                              itemBuilder: (context) {
+                                return [
+                                  const PopupMenuItem(
+                                    value: 'edit',
+                                    child: Text('Edit'),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 'delete',
+                                    child: Text('Delete'),
+                                  ),
+                                ];
+                              },
+                            ),
                           ),
                         )
                       ],
@@ -103,5 +121,11 @@ class _AppState extends State<App> {
         ],
       ),
     );
+  }
+
+  void deleteById(String id) {
+    print('deleted: $id');
+    todos.removeWhere((element) => element.id == id);
+    setState(() {});
   }
 }

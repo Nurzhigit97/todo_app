@@ -28,8 +28,6 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     print(todos);
-    // final date = DateTime.now();
-    // final resDate = '${date.hour}:${date.minute}';
 
     return Scaffold(
       appBar: AppBar(
@@ -64,28 +62,37 @@ class _AppState extends State<App> {
                   itemCount: todos.length,
                   itemBuilder: (context, index) {
                     print(todos);
-                    return Column(
+                    return Row(
                       children: [
-                        ListTile(
-                          title: Text(
-                            todos[index].name,
-                            style: TextStyle(
-                                decoration: todos[index].isChecked == false
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                                wordSpacing: 22,
-                                fontSize: 20),
+                        IconButton(
+                            icon: const Icon(Icons.check_box_outline_blank),
+                            onPressed: () {
+                              setState(() {
+                                todos[index].isChecked =
+                                    !todos[index].isChecked;
+                              });
+                            }),
+                        Expanded(
+                          child: ListTile(
+                            title: Text(
+                              todos[index].name,
+                              style: TextStyle(
+                                  decoration: todos[index].isChecked == false
+                                      ? TextDecoration.lineThrough
+                                      : TextDecoration.none,
+                                  fontSize: 20),
+                            ),
+                            subtitle: Text(todos[index].dateTime),
+                            trailing: IconButton(
+                                icon: const Icon(Icons.create),
+                                onPressed: () {
+                                  setState(() {
+                                    todos[index].isChecked =
+                                        !todos[index].isChecked;
+                                  });
+                                }),
                           ),
-                          subtitle: Text(todos[index].dateTime),
-                          trailing: IconButton(
-                              icon: const Icon(Icons.check_box_outline_blank),
-                              onPressed: () {
-                                setState(() {
-                                  todos[index].isChecked =
-                                      !todos[index].isChecked;
-                                });
-                              }),
-                        ),
+                        )
                       ],
                     );
                   },

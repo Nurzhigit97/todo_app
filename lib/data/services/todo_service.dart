@@ -13,7 +13,9 @@ class TodoService with ChangeNotifier {
     notifyListeners();
   }
 
-  updateTodo() {
+  updateTodo(TodoModel todoModel) {
+    var index = todos.indexWhere((el) => el.id == todoModel.id);
+    if (index != -1) todos[index] = todoModel;
     notifyListeners();
   }
 }

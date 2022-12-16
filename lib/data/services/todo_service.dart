@@ -9,7 +9,8 @@ class TodoService with ChangeNotifier {
   }
 
   removeTodo(idTodo) {
-    todos.removeWhere((element) => element.id == idTodo);
+    var index = todos.indexWhere((element) => element.id == idTodo);
+    if (index != -1) todos.removeAt(index);
     notifyListeners();
   }
 

@@ -1,34 +1,32 @@
 class TodoModel {
   String? id;
-  String? todo;
+  String? title;
   String? createdAt;
   bool? isChecked;
   TodoModel({
     this.id,
-    this.todo,
+    this.title,
     this.createdAt,
     this.isChecked,
   });
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'todo': todo,
+      'title': title,
       'createdAt': createdAt,
       'isChecked': isChecked,
     };
   }
 
-  fromJson(jsonData) {
-    return TodoModel(
-        id: jsonData['id'],
-        todo: jsonData['todo'],
-        createdAt: jsonData['createdAt'],
-        isChecked: jsonData['isChecked']);
-  }
+  static TodoModel fromJson(Map<String, dynamic> jsonData) => TodoModel(
+      id: jsonData['id'],
+      title: jsonData['title'],
+      createdAt: jsonData['createdAt'],
+      isChecked: jsonData['isChecked']);
 
 //! without it, will be showing  Instance of 'TodoModel
   @override
   String toString() {
-    return '$todo $isChecked';
+    return '$title $isChecked';
   }
 }

@@ -10,6 +10,7 @@ class AddTodo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final todoService = context.read<TodoService>();
     return FloatingActionButton(
       onPressed: () {
         showDialog(
@@ -33,14 +34,14 @@ class AddTodo extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           if (_textController.text.isEmpty) return;
-                          context.read<TodoService>().addTodo(
-                                TodoModel(
-                                    title: _textController.text,
-                                    createdAt: [
-                                      DateTime.now().toString().split('.')[0]
-                                    ].join(''),
-                                    isChecked: false),
-                              );
+                          todoService.addTodo(
+                            TodoModel(
+                                title: _textController.text,
+                                createdAt: [
+                                  DateTime.now().toString().split('.')[0]
+                                ].join(''),
+                                isChecked: false),
+                          );
                           _textController.text = '';
                           Navigator.pop(context);
                         },

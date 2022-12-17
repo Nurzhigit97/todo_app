@@ -15,6 +15,7 @@ class PopupItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final todoService = context.read<TodoService>();
     return PopupMenuButton(
       onSelected: (value) {
         if (value == 'edit') {
@@ -46,7 +47,7 @@ class PopupItem extends StatelessWidget {
                             );
 
                             tempTodo.id = valueTodos!.id;
-                            context.read<TodoService>().updateTodo(tempTodo);
+                            todoService.updateTodo(tempTodo);
 
                             Navigator.pop(context);
                           },
@@ -60,7 +61,7 @@ class PopupItem extends StatelessWidget {
           var tempTodo = TodoModel(title: textController.text);
           //! update id
           tempTodo.id = valueTodos!.id;
-          context.read<TodoService>().updateTodo(tempTodo);
+          todoService.updateTodo(tempTodo);
         }
         if (value == 'delete') {
           // remove by item

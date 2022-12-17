@@ -51,4 +51,15 @@ class TodoService with ChangeNotifier {
         .update({'title': todoModel.title});
     notifyListeners();
   }
+
+  isDoneTodo(id, isDone) async {
+    //! local todosList
+    // var index = todos.indexWhere((el) => el.id == todoModel.id);
+    // todos[index] = todoModel;
+    FirebaseFirestore.instance
+        .collection('todos')
+        .doc(id)
+        .update({'isChecked': isDone});
+    notifyListeners();
+  }
 }

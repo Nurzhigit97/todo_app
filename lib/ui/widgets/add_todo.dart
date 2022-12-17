@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 
-class FloatActionBtn extends StatelessWidget {
-  FloatActionBtn({Key? key}) : super(key: key);
+class AddTodo extends StatelessWidget {
+  AddTodo({Key? key}) : super(key: key);
 
   final TextEditingController _textController = TextEditingController();
 

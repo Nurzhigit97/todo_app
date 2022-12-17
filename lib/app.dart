@@ -13,7 +13,7 @@ class App extends StatelessWidget {
       await firebaseAuth.createUserWithEmailAndPassword(
           email: 'pow@gmail.com', password: '12345678');
     } catch (e) {
-      print('Error auth firebase: $e');
+      throw FormatException('Error auth firebase: $e');
     }
   }
 

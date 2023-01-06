@@ -27,6 +27,8 @@ class PopupItem extends StatelessWidget {
                   actions: [
                     TextField(
                       controller: textController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 4,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Edit todo...'),

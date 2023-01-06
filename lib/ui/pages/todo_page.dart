@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
+import 'package:todo_app/data/services/toggle_theme_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 import 'package:todo_app/ui/widgets/add_todo.dart';
 import 'package:todo_app/ui/widgets/popup_menu_item.dart';
 
-class TodoPage extends StatelessWidget {
-  const TodoPage({super.key});
+class TodoPage extends StatefulWidget {
+  TodoPage({super.key});
 
+  @override
+  State<TodoPage> createState() => _TodoPageState();
+}
+
+class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
     final todoService = context.read<TodoService>();
     final doneTodoService = context.read<DoneTodoService>();
+    final themeToggle = Provider.of<ThemeToggleService>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('TODO'),
+        actions: [
+          IconButton(
+            icon: Icon(
+                themeToggle.isDark ? Icons.sunny : Icons.nightlight_outlined),
+            onPressed: () => themeToggle.isToggle(),
+          ),
+        ],
       ),
       body: StreamBuilder<List<TodoModel>>(
         stream: TodoService().readTodo(),

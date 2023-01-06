@@ -3,16 +3,26 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 
-class AddTodo extends StatelessWidget {
+class AddTodo extends StatefulWidget {
   AddTodo({Key? key}) : super(key: key);
 
+  @override
+  State<AddTodo> createState() => _AddTodoState();
+}
+
+class _AddTodoState extends State<AddTodo> {
   final TextEditingController _textController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final todoService = context.read<TodoService>();
     return FloatingActionButton(
-      backgroundColor: Colors.green,
       onPressed: () {
         showDialog(
           context: context,
@@ -20,6 +30,8 @@ class AddTodo extends StatelessWidget {
                 actions: [
                   TextField(
                     controller: _textController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 4,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), hintText: 'Add todo...'),
                   ),

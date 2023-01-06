@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
+import 'package:todo_app/data/services/toggle_theme_service.dart';
 import 'package:todo_app/ui/pages/done_todo_page.dart';
 import 'package:todo_app/ui/pages/todo_page.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
-  static const List<Widget> _widgetOptions = <Widget>[
+  // ignore: prefer_final_fields
+  static List<Widget> _widgetOptions = <Widget>[
     TodoPage(),
-    DoneTodoPage(),
+    const DoneTodoPage(),
   ];
 
   @override
@@ -31,33 +33,40 @@ class _AppState extends State<App> {
       providers: [
         ChangeNotifierProvider(create: (_) => TodoService()),
         ChangeNotifierProvider(create: (_) => DoneTodoService()),
+        ChangeNotifierProvider(create: (context) => ThemeToggleService()),
       ],
-      child: MaterialApp(
-        theme: ThemeData(appBarTheme: const AppBarTheme(color: Colors.green)),
-        debugShowCheckedModeBanner: false,
-        home: SafeArea(
-          child: Scaffold(
-            body: Center(
-              child: App._widgetOptions.elementAt(_selectedIndex),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.task_rounded),
-                  label: 'DoneTodos',
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: const Color.fromARGB(255, 36, 189, 16),
-              onTap: _onItemTapped,
+      // Builder- for fix error can't get current context ThemeProvider
+      child: Builder(builder: (context) {
+        final themeToggle = Provider.of<ThemeToggleService>(context);
+
+        return MaterialApp(
+          theme: themeToggle.isDark
+              ? ThemeToggleService.lightTheme
+              : ThemeToggleService.darkTheme,
+          debugShowCheckedModeBanner: false,
+          home: SafeArea(
+            child: Scaffold(
+              body: Center(
+                child: App._widgetOptions.elementAt(_selectedIndex),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.task_rounded),
+                    label: 'DoneTodos',
+                  ),
+                ],
+                currentIndex: _selectedIndex,
+                onTap: _onItemTapped,
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

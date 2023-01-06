@@ -9,23 +9,16 @@ import 'package:todo_app/ui/pages/todo_page.dart';
 class App extends StatefulWidget {
   const App({super.key});
   // ignore: prefer_final_fields
-  static List<Widget> _widgetOptions = <Widget>[
-    TodoPage(),
-    const DoneTodoPage(),
-  ];
 
   @override
   State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  List<Widget> widgetOptions = <Widget>[
+    const TodoPage(),
+    const DoneTodoPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,23 +38,30 @@ class _AppState extends State<App> {
               : ThemeToggleService.darkTheme,
           debugShowCheckedModeBanner: false,
           home: SafeArea(
-            child: Scaffold(
-              body: Center(
-                child: App._widgetOptions.elementAt(_selectedIndex),
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
+            child: DefaultTabController(
+              length: 2,
+              child: Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  title: const Text('TODO'),
+                  actions: [
+                    IconButton(
+                      icon: Icon(themeToggle.isDark
+                          ? Icons.sunny
+                          : Icons.nightlight_outlined),
+                      onPressed: () => themeToggle.isToggle(),
+                    ),
+                  ],
+                  bottom: const TabBar(
+                    tabs: [
+                      Icon(Icons.home),
+                      Icon(Icons.task_alt_outlined),
+                    ],
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.task_rounded),
-                    label: 'DoneTodos',
-                  ),
-                ],
-                currentIndex: _selectedIndex,
-                onTap: _onItemTapped,
+                ),
+                body: TabBarView(
+                  children: widgetOptions,
+                ),
               ),
             ),
           ),

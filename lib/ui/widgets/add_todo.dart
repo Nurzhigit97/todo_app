@@ -4,7 +4,7 @@ import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 
 class AddTodo extends StatefulWidget {
-  AddTodo({Key? key}) : super(key: key);
+  const AddTodo({Key? key}) : super(key: key);
 
   @override
   State<AddTodo> createState() => _AddTodoState();

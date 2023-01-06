@@ -10,10 +10,6 @@ class DoneTodoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final todoService = context.read<DoneTodoService>();
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Done Tasks'),
-      ),
       body: StreamBuilder<List<TodoModel>>(
         stream: DoneTodoService().readDoneTodo(),
         builder: (context, snapshot) {

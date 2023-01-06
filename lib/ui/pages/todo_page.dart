@@ -6,14 +6,9 @@ import 'package:todo_app/todo_models/todo_model.dart';
 import 'package:todo_app/ui/widgets/add_todo.dart';
 import 'package:todo_app/ui/widgets/popup_menu_item.dart';
 
-class TodoPage extends StatefulWidget {
+class TodoPage extends StatelessWidget {
   const TodoPage({super.key});
 
-  @override
-  State<TodoPage> createState() => _TodoPageState();
-}
-
-class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
     final todoService = context.read<TodoService>();

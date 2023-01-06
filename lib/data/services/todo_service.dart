@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 
 class TodoService with ChangeNotifier {
@@ -7,11 +7,12 @@ class TodoService with ChangeNotifier {
   //! start use FireBase
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  Stream<List<TodoModel>> readTodo() => FirebaseFirestore.instance
-      .collection('todos')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => TodoModel.fromJson(doc.data())).toList());
+  Stream<List<TodoModel>> readTodo() =>
+      FirebaseFirestore.instance.collection('todos').snapshots().map(
+            (snapshot) => snapshot.docs
+                .map((doc) => TodoModel.fromJson(doc.data()))
+                .toList(),
+          );
 
   addTodo(TodoModel todoModel) async {
     //! local todosList

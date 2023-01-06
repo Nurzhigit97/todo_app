@@ -12,6 +12,7 @@ class AddTodo extends StatelessWidget {
   Widget build(BuildContext context) {
     final todoService = context.read<TodoService>();
     return FloatingActionButton(
+      backgroundColor: Colors.green,
       onPressed: () {
         showDialog(
           context: context,

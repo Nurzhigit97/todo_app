@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 import 'package:todo_app/ui/widgets/add_todo.dart';
@@ -11,7 +12,12 @@ class TodoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final todoService = context.read<TodoService>();
+    final doneTodoService = context.read<DoneTodoService>();
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('TODO'),
+      ),
       body: StreamBuilder<List<TodoModel>>(
         stream: TodoService().readTodo(),
         builder: (context, snapshot) {
@@ -23,7 +29,7 @@ class TodoPage extends StatelessWidget {
             final todos = snapshot.data;
             return todos!.isEmpty
                 ? const Center(
-                    child: Text('NO TODO'),
+                    child: Text("Don't have Tasks"),
                   )
                 : Column(
                     children: [
@@ -36,15 +42,28 @@ class TodoPage extends StatelessWidget {
                               children: [
                                 Checkbox(
                                   value: todos[index].isChecked,
-                                  onChanged: (bool? value) {
-                                    todoService.isDoneTodo(
+                                  onChanged: (bool? value) async {
+                                    await todoService.isDoneTodo(
                                         todos[index].id, value);
+                                    if (todos[index].isChecked == false) {
+                                      doneTodoService.addToDone(
+                                        TodoModel(
+                                          id: todos[index].id,
+                                          title: todos[index].title,
+                                          createdAt: todos[index].createdAt,
+                                          isChecked: todos[index].isChecked,
+                                        ),
+                                      );
+
+                                      await todoService
+                                          .removeTodo(todos[index].id);
+                                    }
                                   },
                                 ),
                                 Expanded(
                                   child: ListTile(
                                     title: Text(
-                                      '${todos[index].title!.length > 25 ? todos[index].title!.substring(0, 25) + "..." : todos[index].title}',
+                                      '${todos[index].title!.length > 25 ? "${todos[index].title!.substring(0, 25)}..." : todos[index].title}',
                                       style: TextStyle(
                                           decoration: todos[index].isChecked!
                                               ? TextDecoration.lineThrough

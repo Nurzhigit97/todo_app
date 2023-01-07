@@ -17,7 +17,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   List<Widget> widgetOptions = <Widget>[
     const TodoPage(),
-    const DoneTodoPage(),
+    DoneTodoPage(),
   ];
 
   @override

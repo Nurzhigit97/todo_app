@@ -35,7 +35,7 @@ class DoneTodoPage extends StatelessWidget {
                                 Expanded(
                                   child: ListTile(
                                       title: Text(
-                                        '${todos[index].title!.length > 25 ? "${todos[index].title!.substring(0, 25)}..." : todos[index].title}',
+                                        todos[index].title.toString(),
                                         style: TextStyle(
                                             decoration: todos[index].isChecked!
                                                 ? TextDecoration.lineThrough

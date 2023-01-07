@@ -30,52 +30,48 @@ class _TodoPageState extends State<TodoPage> {
           if (snapshot.hasData) {
             final todos = snapshot.data;
 
-            return todos!.isEmpty
-                ? const Center(
-                    child: Text("Don't have Tasks"),
-                  )
-                : Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: todos.length,
-                          itemBuilder: (context, index) {
-                            //! UI
-                            return ListTile(
-                              leading: Checkbox(
-                                value: todos[index].isChecked,
-                                onChanged: (bool? value) async {
-                                  await todoService.isDoneTodo(
-                                      todos[index].id, value);
-                                  if (todos[index].isChecked == false) {
-                                    doneTodoService.addToDone(
-                                      TodoModel(
-                                        id: todos[index].id,
-                                        title: todos[index].title,
-                                        createdAt: todos[index].createdAt,
-                                        isChecked: todos[index].isChecked,
-                                      ),
-                                    );
-
-                                    await todoService
-                                        .removeTodo(todos[index].id);
-                                  }
-                                },
-                              ),
-                              title: Text(
-                                todos[index].title.toString(),
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              subtitle: Text('${todos[index].createdAt}'),
-                              trailing: PopupItem(
-                                valueTodos: todos[index],
+            if (todos!.isEmpty) {
+              return const Center(
+                child: Text("Don't have Tasks"),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: todos.length,
+                itemBuilder: (context, index) {
+                  //! UI
+                  return Card(
+                    child: ListTile(
+                      leading: Checkbox(
+                        value: todos[index].isChecked,
+                        onChanged: (bool? value) async {
+                          await todoService.isDoneTodo(todos[index].id, value);
+                          if (todos[index].isChecked == false) {
+                            doneTodoService.addToDone(
+                              TodoModel(
+                                id: todos[index].id,
+                                title: todos[index].title,
+                                createdAt: todos[index].createdAt,
+                                isChecked: todos[index].isChecked,
                               ),
                             );
-                          },
-                        ),
+
+                            await todoService.removeTodo(todos[index].id);
+                          }
+                        },
                       ),
-                    ],
+                      title: Text(
+                        todos[index].title.toString(),
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      subtitle: Text('${todos[index].createdAt}'),
+                      trailing: PopupItem(
+                        valueTodos: todos[index],
+                      ),
+                    ),
                   );
+                },
+              );
+            }
           }
           return const Center(
             child: CircularProgressIndicator(),

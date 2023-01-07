@@ -3,11 +3,13 @@ class TodoModel {
   String? title;
   String? createdAt;
   bool? isChecked;
+  String? priority;
   TodoModel({
     this.id,
     this.title,
     this.createdAt,
     this.isChecked,
+    this.priority,
   });
   Map<String, dynamic> toJson() {
     return {
@@ -15,6 +17,7 @@ class TodoModel {
       'title': title,
       'createdAt': createdAt,
       'isChecked': isChecked,
+      'priority': priority,
     };
   }
 
@@ -22,7 +25,8 @@ class TodoModel {
       id: jsonData['id'],
       title: jsonData['title'],
       createdAt: jsonData['createdAt'],
-      isChecked: jsonData['isChecked']);
+      isChecked: jsonData['isChecked'],
+      priority: jsonData['priority']);
 
 //! without it, will be showing  Instance of 'TodoModel
   @override

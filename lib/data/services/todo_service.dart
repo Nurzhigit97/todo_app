@@ -7,12 +7,14 @@ class TodoService with ChangeNotifier {
   //! start use FireBase
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  Stream<List<TodoModel>> readTodo() =>
-      FirebaseFirestore.instance.collection('todos').snapshots().map(
-            (snapshot) => snapshot.docs
-                .map((doc) => TodoModel.fromJson(doc.data()))
-                .toList(),
-          );
+  Stream<List<TodoModel>> readTodo() => FirebaseFirestore.instance
+      .collection('todos')
+      .orderBy('priority', descending: false) // sort by priority
+      .snapshots()
+      .map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => TodoModel.fromJson(doc.data())).toList(),
+      );
 
   addTodo(TodoModel todoModel) async {
     //! local todosList
@@ -50,6 +52,14 @@ class TodoService with ChangeNotifier {
         .collection('todos')
         .doc(todoModel.id)
         .update({'title': todoModel.title});
+    notifyListeners();
+  }
+
+  updatePriority(TodoModel todoModel) async {
+    await firebaseFirestore
+        .collection('todos')
+        .doc(todoModel.id)
+        .update({'priority': todoModel.priority});
     notifyListeners();
   }
 

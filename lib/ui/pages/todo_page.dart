@@ -4,6 +4,7 @@ import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 import 'package:todo_app/ui/widgets/add_todo.dart';
+import 'package:todo_app/ui/widgets/choose_priority.dart';
 import 'package:todo_app/ui/widgets/popup_menu_item.dart';
 
 class TodoPage extends StatelessWidget {
@@ -24,7 +25,6 @@ class TodoPage extends StatelessWidget {
 
           if (snapshot.hasData) {
             final todos = snapshot.data;
-
             if (todos!.isEmpty) {
               return const Center(
                 child: Text("Don't have Tasks"),
@@ -34,7 +34,9 @@ class TodoPage extends StatelessWidget {
                 itemCount: todos.length,
                 itemBuilder: (context, index) {
                   //! UI
+
                   return Card(
+                    color: priority(todos[index].priority),
                     child: ListTile(
                       leading: Checkbox(
                         value: todos[index].isChecked,
@@ -47,6 +49,7 @@ class TodoPage extends StatelessWidget {
                                 title: todos[index].title,
                                 createdAt: todos[index].createdAt,
                                 isChecked: todos[index].isChecked,
+                                priority: todos[index].priority,
                               ),
                             );
 

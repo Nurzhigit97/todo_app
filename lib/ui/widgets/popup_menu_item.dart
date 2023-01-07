@@ -80,6 +80,42 @@ class PopupItem extends StatelessWidget {
             value: 'delete',
             child: Text('Delete'),
           ),
+          PopupMenuItem(
+            onTap: () {
+              var tempTodo = TodoModel(priority: '1');
+              //! update id
+              tempTodo.id = valueTodos!.id;
+              todoService.updatePriority(tempTodo);
+            },
+            child: const Text(
+              'important',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+          PopupMenuItem(
+            onTap: () {
+              var tempTodo = TodoModel(priority: "2");
+              //! update id
+              tempTodo.id = valueTodos!.id;
+              todoService.updatePriority(tempTodo);
+            },
+            child: const Text(
+              'Less Important',
+              style: TextStyle(color: Colors.green),
+            ),
+          ),
+          PopupMenuItem(
+            onTap: () {
+              var tempTodo = TodoModel(priority: '3');
+              //! update id
+              tempTodo.id = valueTodos!.id;
+              todoService.updatePriority(tempTodo);
+            },
+            child: const Text(
+              'If Want Do',
+              style: TextStyle(color: Colors.orange),
+            ),
+          ),
         ];
       },
     );

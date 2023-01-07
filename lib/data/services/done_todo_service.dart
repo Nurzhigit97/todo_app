@@ -19,6 +19,7 @@ class DoneTodoService with ChangeNotifier {
       title: todoModel.title,
       createdAt: [DateTime.now().toString().split('.')[0]].join(''),
       isChecked: false,
+      priority: todoModel.priority,
     );
     final json = todo.toJson();
     await docTodo.set(json);

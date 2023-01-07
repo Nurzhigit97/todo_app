@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
+import 'package:todo_app/ui/widgets/capitalize.dart';
 import 'package:todo_app/ui/widgets/choose_priority.dart';
 
 class DoneTodoPage extends StatelessWidget {
@@ -33,12 +34,8 @@ class DoneTodoPage extends StatelessWidget {
                     color: priority(todos[index].priority),
                     child: ListTile(
                         title: Text(
-                          todos[index].title.toString(),
-                          style: TextStyle(
-                              decoration: todos[index].isChecked!
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
-                              fontSize: 20),
+                          capitalize(todos[index].title.toString()),
+                          style: const TextStyle(fontSize: 18),
                         ),
                         subtitle: Text('${todos[index].createdAt}'),
                         trailing: IconButton(

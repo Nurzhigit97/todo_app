@@ -4,6 +4,7 @@ import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 import 'package:todo_app/ui/widgets/add_todo.dart';
+import 'package:todo_app/ui/widgets/capitalize.dart';
 import 'package:todo_app/ui/widgets/choose_priority.dart';
 import 'package:todo_app/ui/widgets/popup_menu_item.dart';
 
@@ -58,8 +59,8 @@ class TodoPage extends StatelessWidget {
                         },
                       ),
                       title: Text(
-                        todos[index].title.toString(),
-                        style: const TextStyle(fontSize: 20),
+                        capitalize(todos[index].title.toString()),
+                        style: const TextStyle(fontSize: 18),
                       ),
                       subtitle: Text('${todos[index].createdAt}'),
                       trailing: PopupItem(

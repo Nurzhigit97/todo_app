@@ -1,24 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/data/services/toggle_theme_service.dart';
-import 'package:todo_app/ui/pages/done_todo_page.dart';
-import 'package:todo_app/ui/pages/todo_page.dart';
+import 'package:todo_app/home_page.dart';
 
-class App extends StatefulWidget {
-  const App({super.key});
-  // ignore: prefer_final_fields
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  List<Widget> widgetOptions = <Widget>[
-    const TodoPage(),
-    DoneTodoPage(),
-  ];
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,45 +15,19 @@ class _AppState extends State<App> {
       providers: [
         ChangeNotifierProvider(create: (_) => TodoService()),
         ChangeNotifierProvider(create: (_) => DoneTodoService()),
-        ChangeNotifierProvider(create: (context) => ThemeToggleService()),
+        ChangeNotifierProvider(create: (_) => ThemeToggleService()),
       ],
-      // Builder- for fix error can't get current context ThemeProvider
+      // builder for fix bug cant find correct provider ThemeToggleService
       child: Builder(builder: (context) {
-        final themeToggle = Provider.of<ThemeToggleService>(context);
-
         return MaterialApp(
-          theme: themeToggle.isDark
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          theme: context.read<ThemeToggleService>().isDark
               ? ThemeToggleService.lightTheme
               : ThemeToggleService.darkTheme,
           debugShowCheckedModeBanner: false,
-          home: SafeArea(
-            child: DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                appBar: AppBar(
-                  centerTitle: true,
-                  title: const Text('TODO'),
-                  actions: [
-                    IconButton(
-                      icon: Icon(themeToggle.isDark
-                          ? Icons.sunny
-                          : Icons.nightlight_outlined),
-                      onPressed: () => themeToggle.isToggle(),
-                    ),
-                  ],
-                  bottom: const TabBar(
-                    tabs: [
-                      Icon(Icons.home),
-                      Icon(Icons.task_alt_outlined),
-                    ],
-                  ),
-                ),
-                body: TabBarView(
-                  children: widgetOptions,
-                ),
-              ),
-            ),
-          ),
+          home: HomePage(),
         );
       }),
     );

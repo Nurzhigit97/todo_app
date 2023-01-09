@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
+import 'package:todo_app/ui/authScreens/sign_in.dart';
 import 'package:todo_app/ui/widgets/add_todo.dart';
 import 'package:todo_app/ui/widgets/capitalize.dart';
 import 'package:todo_app/ui/widgets/choose_priority.dart';
@@ -26,6 +27,7 @@ class TodoPage extends StatelessWidget {
 
           if (snapshot.hasData) {
             final todos = snapshot.data;
+
             if (todos!.isEmpty) {
               return const Center(
                 child: Text("Don't have Tasks"),
@@ -35,14 +37,17 @@ class TodoPage extends StatelessWidget {
                 itemCount: todos.length,
                 itemBuilder: (context, index) {
                   //! UI
-
+                  if (todos[index].id == null) {
+                    Navigator.of(context).pushReplacementNamed(SignIn.route);
+                  }
                   return Card(
                     color: priority(todos[index].priority),
                     child: ListTile(
                       leading: Checkbox(
                         value: todos[index].isChecked,
                         onChanged: (bool? value) async {
-                          await todoService.isDoneTodo(todos[index].id, value);
+                          await todoService.isDoneTodo(
+                              todos[index].id.toString(), value!);
                           if (todos[index].isChecked == false) {
                             doneTodoService.addToDone(
                               TodoModel(
@@ -54,7 +59,8 @@ class TodoPage extends StatelessWidget {
                               ),
                             );
 
-                            await todoService.removeTodo(todos[index].id);
+                            await todoService
+                                .removeTodo(todos[index].id.toString());
                           }
                         },
                       ),

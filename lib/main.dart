@@ -17,5 +17,5 @@ void main() async {
         Locale('ky'),
         Locale('ru'),
       ],
-      child: App()));
+      child: const App()));
 }

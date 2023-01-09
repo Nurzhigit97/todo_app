@@ -8,19 +8,31 @@ class TodoService with ChangeNotifier {
   //! start use FireBase
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  Stream<List<TodoModel>> readTodo() => FirebaseFirestore.instance
-      .collection('todos')
-      .orderBy('priority', descending: false) // sort by priority
-      .snapshots()
-      .map(
-        (snapshot) =>
-            snapshot.docs.map((doc) => TodoModel.fromJson(doc.data())).toList(),
-      );
+  /// get current user
+  User? get _currentUser => FirebaseAuth.instance.currentUser;
 
-  addTodo(TodoModel todoModel) async {
+  /// get user todos collection ref
+  CollectionReference<Map<String, dynamic>> _userTodosRef() {
+    final String userId = _currentUser!.uid;
+    final ref = FirebaseFirestore.instance.collection('users/$userId/todos');
+    return ref;
+  }
+
+  Stream<List<TodoModel>> readTodo() {
+    return _userTodosRef()
+        .orderBy('priority', descending: false) // sort by priority
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => TodoModel.fromJson(doc.data()))
+              .toList(),
+        );
+  }
+
+  Future addTodo(TodoModel todoModel) async {
     //! local todosList
     // todos.add(todoModel);
-    final docTodo = FirebaseFirestore.instance.collection('todos').doc();
+    final docTodo = _userTodosRef().doc();
     final todo = TodoModel(
       id: docTodo.id,
       title: todoModel.title,
@@ -33,45 +45,38 @@ class TodoService with ChangeNotifier {
     notifyListeners();
   }
 
-  removeTodo(idTodo) async {
+  Future removeTodo(String idTodo) async {
     //! local todosList
     /* var index = todos.indexWhere((element) => element.id == idTodo);
     todos.removeAt(index); */
 
-    final docTodo = firebaseFirestore.collection('todos').doc(idTodo);
+    final docTodo = _userTodosRef().doc(idTodo);
     await docTodo.delete();
 
     notifyListeners();
   }
 
-  updateTodo(TodoModel todoModel) async {
+  Future updateTodo(TodoModel todoModel) async {
     //! local todosList
     // var index = todos.indexWhere((el) => el.id == todoModel.id);
     // todos[index] = todoModel;
 
-    await firebaseFirestore
-        .collection('todos')
-        .doc(todoModel.id)
-        .update({'title': todoModel.title});
+    await _userTodosRef().doc(todoModel.id).update({'title': todoModel.title});
     notifyListeners();
   }
 
-  updatePriority(TodoModel todoModel) async {
-    await firebaseFirestore
-        .collection('todos')
+  Future updatePriority(TodoModel todoModel) async {
+    await _userTodosRef()
         .doc(todoModel.id)
         .update({'priority': todoModel.priority});
     notifyListeners();
   }
 
-  isDoneTodo(id, isDone) async {
+  Future isDoneTodo(String id, bool isDone) async {
     //! local todosList
     // var index = todos.indexWhere((el) => el.id == todoModel.id);
     // todos[index] = todoModel;
-    FirebaseFirestore.instance
-        .collection('todos')
-        .doc(id)
-        .update({'isChecked': isDone});
+    _userTodosRef().doc(id).update({'isChecked': isDone});
     notifyListeners();
   }
 }

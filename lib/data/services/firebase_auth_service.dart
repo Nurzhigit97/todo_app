@@ -1,38 +1,34 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import 'package:flutter/material.dart';
-import 'package:todo_app/app.dart';
 import 'package:todo_app/home_page.dart';
 import 'package:todo_app/ui/authScreens//sign_in.dart';
 
-class FirebaseService {
+class FirebaseAuthService {
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
-  handleAuthState() {
+  StreamBuilder<firebase_auth.User?> handleAuthState() {
     return StreamBuilder(
         stream: firebaseAuth.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const App();
+            return HomePage();
           } else {
-            return signOut();
-            // Если нужно сделаем вход через email
-            // return SignIn();
+            return const SignIn();
           }
         });
   }
 
-  login(
-      {required BuildContext context,
-      required TextEditingController emailController,
-      required TextEditingController passwordController}) async {
+  Future login(
+      {required context,
+      required emailController,
+      required passwordController}) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => HomePage())));
+      Navigator.pushReplacementNamed(context, HomePage.route);
     } on firebase_auth.FirebaseAuthException catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -40,12 +36,13 @@ class FirebaseService {
         ),
       );
     }
+    return null;
   }
 
   Future register(
-      {required BuildContext context,
-      required TextEditingController emailController,
-      required TextEditingController passwordController}) async {
+      {required context,
+      required emailController,
+      required passwordController}) async {
     firebase_auth.FirebaseAuth firebaseAuth =
         firebase_auth.FirebaseAuth.instance;
 
@@ -54,9 +51,7 @@ class FirebaseService {
         email: emailController.text,
         password: passwordController.text,
       );
-
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => SignIn())));
+      Navigator.pushReplacementNamed(context, SignIn.route);
     } on firebase_auth.FirebaseAuthException catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -66,7 +61,7 @@ class FirebaseService {
     }
   }
 
-  signOut() {
+  void signOut() {
     firebaseAuth.signOut();
   }
 }

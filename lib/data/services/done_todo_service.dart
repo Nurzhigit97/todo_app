@@ -1,19 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/todo_models/todo_model.dart';
 
 class DoneTodoService with ChangeNotifier {
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  /// get current user
+  User? get _currentUser => FirebaseAuth.instance.currentUser;
 
-  Stream<List<TodoModel>> readDoneTodo() =>
-      FirebaseFirestore.instance.collection('doneTodo').snapshots().map(
-            (snapshot) => snapshot.docs
-                .map((doc) => TodoModel.fromJson(doc.data()))
-                .toList(),
-          );
+  /// get user done todos collection ref
+  CollectionReference<Map<String, dynamic>> _userTodosRef() {
+    final userId = _currentUser?.uid;
+    final ref = FirebaseFirestore.instance.collection('users/$userId/doneTodo');
+    return ref;
+  }
+
+  Stream<List<TodoModel>> readDoneTodo() => _userTodosRef().snapshots().map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => TodoModel.fromJson(doc.data())).toList(),
+      );
 
   addToDone(TodoModel todoModel) async {
-    final docTodo = FirebaseFirestore.instance.collection('doneTodo').doc();
+    final docTodo = _userTodosRef().doc();
     final todo = TodoModel(
       id: docTodo.id,
       title: todoModel.title,
@@ -28,7 +35,7 @@ class DoneTodoService with ChangeNotifier {
   }
 
   removeDoneTodo(idTodo) async {
-    final docTodo = firebaseFirestore.collection('doneTodo').doc(idTodo);
+    final docTodo = _userTodosRef().doc(idTodo);
     await docTodo.delete();
 
     notifyListeners();

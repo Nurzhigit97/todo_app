@@ -6,22 +6,21 @@ import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart' show AssetLoader;
 
-class CodegenLoader extends AssetLoader{
+class CodegenLoader extends AssetLoader {
   const CodegenLoader();
 
   @override
-  Future<Map<String, dynamic>> load(String fullPath, Locale locale ) {
+  // ignore: avoid_renaming_method_parameters
+  Future<Map<String, dynamic>> load(String fullPath, Locale locale) {
     return Future.value(mapLocales[locale.toString()]);
   }
 
-  static const Map<String,dynamic> en = {
-  "nameApp": "Daily tasks"
-};
-static const Map<String,dynamic> ky = {
-  "nameApp": "Күнүмдүк тапшырмалар"
-};
-static const Map<String,dynamic> ru = {
-  "nameApp": "Повседневные задачи"
-};
-static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ky": ky, "ru": ru};
+  static const Map<String, dynamic> en = {"nameApp": "Daily tasks"};
+  static const Map<String, dynamic> ky = {"nameApp": "Күнүмдүк тапшырмалар"};
+  static const Map<String, dynamic> ru = {"nameApp": "Повседневные задачи"};
+  static const Map<String, Map<String, dynamic>> mapLocales = {
+    "en": en,
+    "ky": ky,
+    "ru": ru
+  };
 }

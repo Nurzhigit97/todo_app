@@ -8,7 +8,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(EasyLocalization(
+  runApp(
+    EasyLocalization(
       fallbackLocale: const Locale('ky'),
       assetLoader: const CodegenLoader(),
       path: 'assets/translations',
@@ -17,5 +18,7 @@ void main() async {
         Locale('ky'),
         Locale('ru'),
       ],
-      child: const App()));
+      child: const App(),
+    ),
+  );
 }

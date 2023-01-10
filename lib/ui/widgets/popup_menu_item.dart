@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:todo_app/data/services/todo_service.dart';
-import 'package:todo_app/todo_models/todo_model.dart';
+import 'package:todo_app/data/services/todo_models/todo_model.dart';
+import 'package:todo_app/generated/locale_keys.g.dart';
 
 // ignore: must_be_immutable
 class PopupItem extends StatelessWidget {
@@ -29,9 +31,9 @@ class PopupItem extends StatelessWidget {
                       controller: textController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Edit todo...'),
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          hintText: LocaleKeys.editTextField.tr()),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import 'package:flutter/material.dart';
-import 'package:todo_app/home_page.dart';
+import 'package:todo_app/ui/home_page.dart';
 import 'package:todo_app/ui/authScreens//sign_in.dart';
 
 class FirebaseAuthService {

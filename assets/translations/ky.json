@@ -1,3 +1,27 @@
 {
-  "nameApp": "Күнүмдүк тапшырмалар"
+  "nameApp": "Күнүмдүк тапшырмалар",
+  "addTodo": "Тапшырма кошуу...",
+  "cancel": "Чыгуу",
+  "add": "Кошуу",
+  "dontHaveTask": "Тапшырма жок",
+
+  "enterEmail": "Электрондук почтаңызды киргизиңиз...",
+  "enterPassword": "Сырсөздү киргизиңиз...",
+  "login": "Кирүү",
+  "register": "Каттоо",
+  "signOut": "Чыгуу",
+  "errorTextFieldEmail": "Сураныч, жарактуу электрондук почта дарегин киргизиңиз.",
+  "ifErrorTextField": "Жок дегенде бир санды камтышы керек.",
+  "errorTextFieldPassword": "Сураныч, туура сырсөздү киргизиңиз.",
+  "ifHaveAccaunt": "Аккаунтуңуз бар болсо?",
+  "ifDontHaveAccaunt": "Аккаунтуңуз жок болсо?",
+
+  "edit": "Оңдоо",
+  "editTextField": "Тапшырманы түзөтүү...",
+  "delete": "Жок кылуу",
+
+  "important": "Маанилүү",
+  "lessImportant": "Азыраак маанилүү",
+  "doIfYouWant": "Кылгың келсе жаса",
+  "errorGetDataFirebase": "Firebase'тен берилиштерди алууда ката кетти"
 }

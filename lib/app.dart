@@ -5,10 +5,7 @@ import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/firebase_auth_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/data/services/toggle_theme_service.dart';
-import 'package:todo_app/home_page.dart';
-import 'package:todo_app/ui/authScreens/registered_dialog.dart';
-import 'package:todo_app/ui/authScreens/sign_in.dart';
-import 'package:todo_app/ui/authScreens/sign_up.dart';
+import 'package:todo_app/ui/settings_app.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -21,7 +18,7 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DoneTodoService()),
         ChangeNotifierProvider(create: (_) => ThemeToggleService()),
       ],
-      // builder for fix bug cant find correct provider ThemeToggleService
+      // builder for fix bug: cant find correct provider ThemeToggleService
       child: Builder(builder: (context) {
         return MaterialApp(
           localizationsDelegates: context.localizationDelegates,
@@ -32,16 +29,9 @@ class App extends StatelessWidget {
               : ThemeToggleService.darkTheme,
           debugShowCheckedModeBanner: false,
           home: FirebaseAuthService().handleAuthState(),
-          routes: getRoutes(),
+          routes: SettingsApp.getRoutes(),
         );
       }),
     );
   }
-
-  Map<String, WidgetBuilder> getRoutes() => <String, WidgetBuilder>{
-        HomePage.route: (_) => HomePage(),
-        SignIn.route: (_) => const SignIn(),
-        SignUp.route: (_) => const SignUp(),
-        RegisteredDialog.route: (_) => const RegisteredDialog(),
-      };
 }

@@ -78,7 +78,7 @@ class _SignInState extends State<SignIn> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("У вас еще нет учетной записи?"),
+                        const Text("Нет учетной записи?"),
                         TextButton(
                           onPressed: () => Navigator.pushReplacementNamed(
                               context, SignUp.route),

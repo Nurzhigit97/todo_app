@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/done_todo_service.dart';
-import 'package:todo_app/todo_models/todo_model.dart';
+import 'package:todo_app/data/services/todo_models/todo_model.dart';
 import 'package:todo_app/ui/widgets/capitalize.dart';
 import 'package:todo_app/ui/widgets/choose_priority.dart';
 

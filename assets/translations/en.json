@@ -1,3 +1,27 @@
 {
-  "nameApp": "Daily tasks"
+  "nameApp": "Daily tasks",
+  "addTodo": "Add todo...",
+  "cancel": "Cancel",
+  "add": "Add",
+  "dontHaveTask": "Don't have tasks",
+
+  "enterEmail": "Enter email...",
+  "enterPassword": "Enter password...",
+  "login": "Login",
+  "register": "Register",
+  "signOut": "Sign out",
+  "errorTextFieldEmail": "Please enter a valid email.",
+  "ifErrorTextField": "Must contain at least one number.",
+  "errorTextFieldPassword": "Please enter a valid password.",
+  "ifHaveAccaunt": "Already have an account?",
+  "ifDontHaveAccaunt": "Don't have an account?",
+
+  "edit": "Edit",
+  "editTextField": "Edit task...",
+  "delete": "Delete",
+
+  "important": "Important",
+  "lessImportant": "Less important",
+  "doIfYouWant": "Do it if you want",
+  "errorGetDataFirebase": "Error getting data from Firebase."
 }

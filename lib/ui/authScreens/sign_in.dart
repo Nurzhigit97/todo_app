@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:passwordfield/passwordfield.dart';
 import 'package:todo_app/data/services/firebase_auth_service.dart';
+import 'package:todo_app/generated/locale_keys.g.dart';
 import 'package:todo_app/ui/authScreens/sign_up.dart';
 
 class SignIn extends StatefulWidget {
@@ -35,14 +38,19 @@ class _SignInState extends State<SignIn> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   children: [
-                    TextField(
+                    TextFormField(
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.only(top: 5, left: 10),
-                        suffixIcon: Icon(Icons.alternate_email_sharp),
-                        hintText: 'Введите почту...',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(top: 5, left: 10),
+                        suffixIcon: const Icon(Icons.alternate_email_sharp),
+                        hintText: LocaleKeys.enterEmail.tr(),
+                        border: const OutlineInputBorder(),
                       ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (email) =>
+                          email != null && !EmailValidator.validate(email)
+                              ? LocaleKeys.errorTextFieldEmail.tr()
+                              : null,
                     ),
                     const SizedBox(
                       height: 10,
@@ -53,7 +61,7 @@ class _SignInState extends State<SignIn> {
                       inputDecoration: PasswordDecoration(
                         inputPadding: const EdgeInsets.only(top: 5, left: 10),
                       ),
-                      hintText: 'Введите пароль...',
+                      hintText: LocaleKeys.enterPassword.tr(),
                       border: PasswordBorder(
                         border: const OutlineInputBorder(),
                         focusedErrorBorder: OutlineInputBorder(
@@ -62,8 +70,7 @@ class _SignInState extends State<SignIn> {
                               BorderSide(width: 2, color: Colors.red.shade200),
                         ),
                       ),
-                      errorMessage:
-                          'Должен содержать специальный символ . * @ # \$',
+                      errorMessage: LocaleKeys.errorTextFieldPassword.tr(),
                     ),
                     const SizedBox(
                       height: 10,
@@ -73,16 +80,16 @@ class _SignInState extends State<SignIn> {
                           context: context,
                           emailController: _emailController,
                           passwordController: _passwordController),
-                      child: const Text('Войти'),
+                      child: Text(LocaleKeys.login.tr()),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Нет учетной записи?"),
+                        Text(LocaleKeys.ifDontHaveAccaunt.tr()),
                         TextButton(
                           onPressed: () => Navigator.pushReplacementNamed(
                               context, SignUp.route),
-                          child: const Text('Sign Up'),
+                          child: Text(LocaleKeys.register.tr()),
                         ),
                       ],
                     ),
@@ -90,7 +97,7 @@ class _SignInState extends State<SignIn> {
                       style: TextButton.styleFrom(
                         textStyle: Theme.of(context).textTheme.labelLarge,
                       ),
-                      child: const Text('Выйти'),
+                      child: Text(LocaleKeys.signOut.tr()),
                       onPressed: () {
                         FirebaseAuthService().signOut();
                       },

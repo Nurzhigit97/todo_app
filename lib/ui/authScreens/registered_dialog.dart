@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/generated/locale_keys.g.dart';
 import 'package:todo_app/ui/authScreens/sign_in.dart';
 
 class RegisteredDialog extends StatefulWidget {
@@ -43,9 +45,9 @@ class _RegisteredDialogState extends State<RegisteredDialog> {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text(
-                'Логин',
-                style: TextStyle(
+              child: Text(
+                LocaleKeys.login.tr(),
+                style: const TextStyle(
                   fontSize: 17,
                 ),
               ),

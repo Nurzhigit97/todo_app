@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:passwordfield/passwordfield.dart';
 import 'package:todo_app/data/services/firebase_auth_service.dart';
+import 'package:todo_app/generated/locale_keys.g.dart';
 import 'package:todo_app/ui/authScreens/sign_in.dart';
 
 class SignUp extends StatefulWidget {
@@ -42,12 +44,13 @@ class _SignUpState extends State<SignUp> {
                     children: [
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.only(top: 5, left: 10),
-                          suffixIcon: Icon(Icons.alternate_email_sharp),
-                          hintText: 'Введите почту...',
-                          border: OutlineInputBorder(),
-                          errorStyle: TextStyle(
+                        decoration: InputDecoration(
+                          contentPadding:
+                              const EdgeInsets.only(top: 5, left: 10),
+                          suffixIcon: const Icon(Icons.alternate_email_sharp),
+                          hintText: LocaleKeys.enterEmail.tr(),
+                          border: const OutlineInputBorder(),
+                          errorStyle: const TextStyle(
                             fontSize: 14,
                             color: Colors.red,
                           ),
@@ -55,7 +58,7 @@ class _SignUpState extends State<SignUp> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (email) =>
                             email != null && !EmailValidator.validate(email)
-                                ? 'Введите правильный эл. почту'
+                                ? LocaleKeys.errorTextFieldEmail.tr()
                                 : null,
                       ),
                       const SizedBox(
@@ -67,7 +70,7 @@ class _SignUpState extends State<SignUp> {
                         inputDecoration: PasswordDecoration(
                           inputPadding: const EdgeInsets.only(top: 5, left: 10),
                         ),
-                        hintText: 'Введите пароль...',
+                        hintText: LocaleKeys.enterPassword.tr(),
                         border: PasswordBorder(
                           border: const OutlineInputBorder(),
                           focusedErrorBorder: OutlineInputBorder(
@@ -76,7 +79,7 @@ class _SignUpState extends State<SignUp> {
                                 width: 2, color: Colors.red.shade200),
                           ),
                         ),
-                        errorMessage: 'Должен содержать хотябы одну цифру',
+                        errorMessage: LocaleKeys.errorTextFieldPassword.tr(),
                       ),
                       const SizedBox(
                         height: 10,
@@ -91,16 +94,22 @@ class _SignUpState extends State<SignUp> {
                               emailController: _emailController,
                               passwordController: _passwordController);
                         },
-                        child: const Text('Регистрация'),
+                        child: Text(
+                          LocaleKeys.register.tr(),
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Уже есть учетная запись?'),
+                          Text(
+                            LocaleKeys.ifHaveAccaunt.tr(),
+                          ),
                           TextButton(
                             onPressed: () => Navigator.pushReplacementNamed(
                                 context, SignIn.route),
-                            child: const Text('Sign In'),
+                            child: Text(
+                              LocaleKeys.login.tr(),
+                            ),
                           ),
                         ],
                       ),

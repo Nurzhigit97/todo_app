@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/done_todo_service.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/data/services/todo_models/todo_model.dart';
+import 'package:todo_app/generated/locale_keys.g.dart';
 import 'package:todo_app/ui/authScreens/sign_in.dart';
 import 'package:todo_app/ui/widgets/add_todo.dart';
 import 'package:todo_app/ui/widgets/capitalize.dart';
@@ -22,15 +24,15 @@ class TodoPage extends StatelessWidget {
         stream: TodoService().readTodo(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Text('Error get todos from Firebase ${snapshot.error}');
+            return Text('${LocaleKeys.dontHaveTask.tr()} ${snapshot.error}');
           }
 
           if (snapshot.hasData) {
             final todos = snapshot.data;
 
             if (todos!.isEmpty) {
-              return const Center(
-                child: Text("Don't have Tasks"),
+              return Center(
+                child: Text(LocaleKeys.dontHaveTask.tr()),
               );
             } else {
               return ListView.builder(

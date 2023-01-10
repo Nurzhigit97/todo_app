@@ -42,7 +42,7 @@ class PopupItem extends StatelessWidget {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: const Text('Cancel'),
+                          child: Text(LocaleKeys.cancel.tr()),
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -55,7 +55,7 @@ class PopupItem extends StatelessWidget {
 
                             Navigator.pop(context);
                           },
-                          child: const Text('Edit'),
+                          child: Text(LocaleKeys.edit.tr()),
                         ),
                       ],
                     ),
@@ -74,13 +74,13 @@ class PopupItem extends StatelessWidget {
       },
       itemBuilder: (context) {
         return [
-          const PopupMenuItem(
+          PopupMenuItem(
             value: 'edit',
-            child: Text('Edit'),
+            child: Text(LocaleKeys.edit.tr()),
           ),
-          const PopupMenuItem(
+          PopupMenuItem(
             value: 'delete',
-            child: Text('Delete'),
+            child: Text(LocaleKeys.delete.tr()),
           ),
           PopupMenuItem(
             onTap: () {
@@ -89,9 +89,9 @@ class PopupItem extends StatelessWidget {
               tempTodo.id = valueTodos!.id;
               todoService.updatePriority(tempTodo);
             },
-            child: const Text(
-              'important',
-              style: TextStyle(color: Colors.red),
+            child: Text(
+              LocaleKeys.important.tr(),
+              style: const TextStyle(color: Colors.red),
             ),
           ),
           PopupMenuItem(
@@ -101,9 +101,9 @@ class PopupItem extends StatelessWidget {
               tempTodo.id = valueTodos!.id;
               todoService.updatePriority(tempTodo);
             },
-            child: const Text(
-              'Less Important',
-              style: TextStyle(color: Colors.green),
+            child: Text(
+              LocaleKeys.lessImportant.tr(),
+              style: const TextStyle(color: Colors.green),
             ),
           ),
           PopupMenuItem(
@@ -113,9 +113,9 @@ class PopupItem extends StatelessWidget {
               tempTodo.id = valueTodos!.id;
               todoService.updatePriority(tempTodo);
             },
-            child: const Text(
-              'If Want Do',
-              style: TextStyle(color: Colors.orange),
+            child: Text(
+              LocaleKeys.doIfYouWant.tr(),
+              style: const TextStyle(color: Colors.orange),
             ),
           ),
         ];

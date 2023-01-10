@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data/services/todo_service.dart';
 import 'package:todo_app/data/services/todo_models/todo_model.dart';
+import 'package:todo_app/generated/locale_keys.g.dart';
 
 class AddTodo extends StatefulWidget {
   const AddTodo({Key? key}) : super(key: key);
@@ -32,8 +34,9 @@ class _AddTodoState extends State<AddTodo> {
                     controller: _textController,
                     keyboardType: TextInputType.multiline,
                     maxLines: 4,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'Add todo...'),
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        hintText: LocaleKeys.addTodo.tr()),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -42,7 +45,7 @@ class _AddTodoState extends State<AddTodo> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text('Cancel'),
+                        child: Text(LocaleKeys.cancel.tr()),
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -58,7 +61,7 @@ class _AddTodoState extends State<AddTodo> {
                           _textController.text = '';
                           Navigator.pop(context);
                         },
-                        child: const Text('Add'),
+                        child: Text(LocaleKeys.add.tr()),
                       ),
                     ],
                   ),
